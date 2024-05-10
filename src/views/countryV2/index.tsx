@@ -11,11 +11,10 @@ import { NumberParam, useQueryParam } from 'use-query-params'
 const CountryV2: FC = memo(() => {
   const inputRef = useRef<HTMLInputElement>(null)
   const [searchValue, setSearchValue] = useState('')
-  const {
-    data: queryData,
-    isError,
-    isFetched,
-  } = useQuery({ queryKey: ['countries'], queryFn: getCountryList })
+  const { data: queryData, isFetched } = useQuery({
+    queryKey: ['countries'],
+    queryFn: getCountryList,
+  })
   const [currentPage, setCurrentPage] = useQueryParam(
     'currentPage',
     NumberParam
@@ -46,12 +45,14 @@ const CountryV2: FC = memo(() => {
     setCurrentPage(page)
   }
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // avoid currentPage has no data
+    setCurrentPage(1)
     // update search value
     setSearchValue(e.target.value)
   }
 
   return (
-    <div className='p-3 rounded-none shadow-md w-[700px] m-auto'>
+    <div className='p-3 rounded-none shadow-md w-[900px] m-auto'>
       <Search onSearch={handleSearch} ref={inputRef} value={searchValue} />
       {currentList && <TableContent data={currentList} />}
       {isFetched && totalPages && (

@@ -1,22 +1,78 @@
 import { memo, type FC } from 'react'
 import { IDataType } from '../type'
+import SortButton from './sortButton'
 
 interface IProps {
   data: IDataType[]
 }
+type SortItemType = 'name' | 'capital' | 'currency' | 'phone' | 'population'
 
 const TableContent: FC<IProps> = memo(({ data }) => {
+  const handleAscClick = (key: SortItemType) => {
+    data.sort((a, b) => {
+      if (typeof a[key] === 'string' && typeof b[key] === 'string') {
+        return a[key].localeCompare(b[key])
+      } else if (typeof a[key] === 'number' && typeof b[key] === 'number') {
+        return a[key] - b[key]
+      }
+      return 0
+    })
+  }
+
   return (
     <>
       <table className='w-full'>
         <thead>
           <tr className='text-left'>
             <th>National Flag</th>
-            <th>Name</th>
-            <th>Capital</th>
-            <th>Currency</th>
-            <th>Phone</th>
-            <th>Population</th>
+            <th>
+              <div className='flex justify-around items-center'>
+                <span>Name</span>
+                <div>
+                  <SortButton
+                    onClick={() => handleAscClick('name')}
+                    direction='up'
+                  />
+                  <SortButton direction='down' />
+                </div>
+              </div>
+            </th>
+            <th>
+              <div className='flex justify-around items-center'>
+                <span>Capital</span>
+                <div>
+                  <SortButton direction='up' />
+                  <SortButton direction='down' />
+                </div>
+              </div>
+            </th>
+            <th>
+              <div className='flex justify-around items-center'>
+                <span>Currency</span>
+                <div>
+                  <SortButton direction='up' />
+                  <SortButton direction='down' />
+                </div>
+              </div>
+            </th>
+            <th>
+              <div className='flex justify-around items-center'>
+                <span>Phone</span>
+                <div>
+                  <SortButton direction='up' />
+                  <SortButton direction='down' />
+                </div>
+              </div>
+            </th>
+            <th>
+              <div className='flex justify-around items-center'>
+                <span>Population</span>
+                <div>
+                  <SortButton direction='up' />
+                  <SortButton direction='down' />
+                </div>
+              </div>
+            </th>
           </tr>
         </thead>
         <tbody>
