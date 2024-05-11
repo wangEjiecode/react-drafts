@@ -5,8 +5,8 @@ interface IProps {
 }
 const SortButton: React.FC<IProps> = ({ direction, onClick, active }) => {
   return (
-    <div onClick={onClick}>
-      {direction === 'up' ? <button>⬆️</button> : <button>⬇️</button>}
+    <div onClick={onClick} className='text-xs font-thin text-gray-400'>
+      {direction === 'up' ? <button>A</button> : <button>V</button>}
     </div>
   )
 }
