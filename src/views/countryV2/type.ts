@@ -8,3 +8,11 @@ export interface IDataType {
     flag: string
   }
 }
+
+export type SortItemName =
+  | 'name'
+  | 'capital'
+  | 'currency'
+  | 'phone'
+  | 'population'
+export type SortType = 'asc' | 'desc'

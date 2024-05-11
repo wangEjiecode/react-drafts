@@ -1,30 +1,14 @@
-import { memo, useState, type FC } from 'react'
+import { memo, type FC } from 'react'
 import { IDataType } from '../type'
 import SortButton from './sortButton'
+import type { SortItemName, SortType } from '../type'
 
 interface IProps {
   data: IDataType[]
+  onSort: (key: SortItemName, type: SortType) => void
 }
-type SortItemType = 'name' | 'capital' | 'currency' | 'phone' | 'population'
-type SortType = 'asc' | 'desc'
 
-const TableContent: FC<IProps> = memo(({ data: initialData }) => {
-  const [data, setData] = useState(initialData)
-  const sortData = [...data]
-  const handleClick = (key: SortItemType, type: SortType) => {
-    sortData.sort((a, b) => {
-      if (typeof a[key] === 'string' && typeof b[key] === 'string') {
-        return type === 'asc'
-          ? a[key].localeCompare(b[key])
-          : b[key].localeCompare(a[key])
-      } else if (typeof a[key] === 'number' && typeof b[key] === 'number') {
-        return type === 'asc' ? a[key] - b[key] : b[key] - a[key]
-      }
-      return 0
-    })
-    setData(sortData)
-  }
-
+const TableContent: FC<IProps> = memo(({ data, onSort }) => {
   return (
     <>
       <table className='w-full'>
@@ -36,12 +20,12 @@ const TableContent: FC<IProps> = memo(({ data: initialData }) => {
                 <span>Name</span>
                 <div>
                   <SortButton
-                    onClick={() => handleClick('name', 'asc')}
+                    onClick={() => onSort('name', 'asc')}
                     direction='up'
                   />
                   <SortButton
                     direction='down'
-                    onClick={() => handleClick('name', 'desc')}
+                    onClick={() => onSort('name', 'desc')}
                   />
                 </div>
               </div>
@@ -52,11 +36,11 @@ const TableContent: FC<IProps> = memo(({ data: initialData }) => {
                 <div>
                   <SortButton
                     direction='up'
-                    onClick={() => handleClick('capital', 'asc')}
+                    onClick={() => onSort('capital', 'asc')}
                   />
                   <SortButton
                     direction='down'
-                    onClick={() => handleClick('capital', 'desc')}
+                    onClick={() => onSort('capital', 'desc')}
                   />
                 </div>
               </div>
@@ -67,11 +51,11 @@ const TableContent: FC<IProps> = memo(({ data: initialData }) => {
                 <div>
                   <SortButton
                     direction='up'
-                    onClick={() => handleClick('currency', 'asc')}
+                    onClick={() => onSort('currency', 'asc')}
                   />
                   <SortButton
                     direction='down'
-                    onClick={() => handleClick('currency', 'desc')}
+                    onClick={() => onSort('currency', 'desc')}
                   />
                 </div>
               </div>
@@ -82,11 +66,11 @@ const TableContent: FC<IProps> = memo(({ data: initialData }) => {
                 <div>
                   <SortButton
                     direction='up'
-                    onClick={() => handleClick('phone', 'asc')}
+                    onClick={() => onSort('phone', 'asc')}
                   />
                   <SortButton
                     direction='down'
-                    onClick={() => handleClick('phone', 'desc')}
+                    onClick={() => onSort('phone', 'desc')}
                   />
                 </div>
               </div>
@@ -97,11 +81,11 @@ const TableContent: FC<IProps> = memo(({ data: initialData }) => {
                 <div>
                   <SortButton
                     direction='up'
-                    onClick={() => handleClick('population', 'asc')}
+                    onClick={() => onSort('population', 'asc')}
                   />
                   <SortButton
                     direction='down'
-                    onClick={() => handleClick('population', 'desc')}
+                    onClick={() => onSort('population', 'desc')}
                   />
                 </div>
               </div>
