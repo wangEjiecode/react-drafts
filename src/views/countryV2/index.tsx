@@ -39,6 +39,7 @@ const CountryV2: FC = memo(() => {
 
   const perPage = 10
 
+  // search content
   const filteredList = useMemo(() => {
     return allDataList.filter(
       (item) =>
@@ -66,7 +67,9 @@ const CountryV2: FC = memo(() => {
   )
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // update search value
     setSearchValue(e.target.value)
+    // avoid currentPage has no data
     setCurrentPage(1)
   }
 
