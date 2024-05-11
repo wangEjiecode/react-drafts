@@ -1,12 +1,14 @@
 interface IProps {
   direction: 'up' | 'down'
   onClick?: () => void
-  active?: boolean
+  isActive?: boolean
 }
-const SortButton: React.FC<IProps> = ({ direction, onClick, active }) => {
+const SortButton: React.FC<IProps> = ({ direction, onClick, isActive }) => {
   return (
     <div onClick={onClick} className='text-xs font-thin text-gray-400'>
-      {direction === 'up' ? <button>A</button> : <button>V</button>}
+      <button className={isActive ? 'text-black' : ''}>
+        {direction === 'up' ? '▲' : '▼'}
+      </button>
     </div>
   )
 }
