@@ -91,7 +91,7 @@ const CountryV2: FC = memo(() => {
   )
 
   return (
-    <div className='p-3 rounded-none shadow-md w-[900px] m-auto'>
+    <div className='p-3 rounded-none shadow-lg w-[900px] my-3 mx-auto'>
       <Search onSearch={handleSearch} ref={inputRef} value={searchValue} />
       <TableContent data={currentList} onSort={handleSort} />
       {isFetched && totalPages > 0 && (
