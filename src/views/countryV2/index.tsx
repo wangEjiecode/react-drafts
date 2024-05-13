@@ -9,12 +9,13 @@ import type { IDataType } from './type'
 import { NumberParam, useQueryParam } from 'use-query-params'
 import type { SortItemName, SortType } from './type'
 import { AxiosResponse } from 'axios'
+import Entries from './components/entries'
 
 const CountryV2: FC = memo(() => {
   const inputRef = useRef<HTMLInputElement>(null)
   const [searchValue, setSearchValue] = useState('')
   const [allDataList, setAllDataList] = useState<IDataType[]>([])
-
+  const [perPage, setPerPage] = useState(10)
   const { data: queryData, isFetched } = useQuery<AxiosResponse<IDataType[]>>({
     queryKey: ['countries'],
     queryFn: getCountryList,
@@ -37,8 +38,6 @@ const CountryV2: FC = memo(() => {
     }
   }, [queryData])
 
-  const perPage = 10
-
   // search content
   const filteredList = useMemo(() => {
     return allDataList.filter(
@@ -52,12 +51,12 @@ const CountryV2: FC = memo(() => {
 
   const totalPages = useMemo(() => {
     return Math.ceil(filteredList.length / perPage)
-  }, [filteredList.length])
+  }, [filteredList.length, perPage])
 
   const currentList = useMemo(() => {
     const startIndex = (currentPage ? currentPage - 1 : 0) * perPage
     return filteredList.slice(startIndex, startIndex + perPage)
-  }, [filteredList, currentPage])
+  }, [filteredList, currentPage, perPage])
 
   const handlePageChange = useCallback(
     (page: number) => {
@@ -90,9 +89,18 @@ const CountryV2: FC = memo(() => {
     [allDataList]
   )
 
+  const handleOptionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setPerPage(Number(e.currentTarget.value))
+  }
   return (
     <div className='p-3 rounded-none shadow-lg w-[900px] my-3 mx-auto'>
-      <Search onSearch={handleSearch} ref={inputRef} value={searchValue} />
+      <div className='flex justify-between h-12'>
+        <Entries
+          values={new Set([10, 20, 30])}
+          onOptionChange={handleOptionChange}
+        />
+        <Search onSearch={handleSearch} ref={inputRef} value={searchValue} />
+      </div>
       <TableContent data={currentList} onSort={handleSort} />
       {isFetched && totalPages > 0 && (
         <Pagination

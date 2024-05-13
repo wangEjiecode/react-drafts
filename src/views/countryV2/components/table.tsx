@@ -16,8 +16,8 @@ interface IHeaderProps {
 const TableHeader: FC<IHeaderProps> = memo(
   ({ label, sortKey, activeSort, onSort }) => {
     return (
-      <th>
-        <div className='flex justify-around items-center'>
+      <th className='pr-3'>
+        <div className='flex justify-between items-center'>
           <span>{label}</span>
           <div>
             <SortButton
@@ -78,7 +78,10 @@ const TableContent: FC<IContentProps> = memo(({ data, onSort }) => {
         {data?.map((item, index) => (
           <tr
             key={index}
-            className={index % 2 === 0 ? 'bg-[#f9f9f9]' : 'bg-[#fff]'}>
+            className={
+              (index % 2 === 0 ? 'bg-[#f9f9f9]' : 'bg-[#fff]') +
+              '  hover:bg-gray-200'
+            }>
             <td width={'120px'}>
               <img src={item.media.flag} alt='' width='100px' height='100px' />
             </td>
