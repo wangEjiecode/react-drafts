@@ -16,6 +16,7 @@ const CountryV2: FC = memo(() => {
   const [searchValue, setSearchValue] = useState('')
   const [allDataList, setAllDataList] = useState<IDataType[]>([])
   const [perPage, setPerPage] = useState(10)
+  const [isLoading, setIsLoading] = useState(true)
   const { data: queryData, isFetched } = useQuery<AxiosResponse<IDataType[]>>({
     queryKey: ['countries'],
     queryFn: getCountryList,
@@ -35,6 +36,7 @@ const CountryV2: FC = memo(() => {
     if (queryData) {
       const data = queryData.data || []
       setAllDataList(data)
+      setIsLoading(false)
     }
   }, [queryData])
 
@@ -67,7 +69,7 @@ const CountryV2: FC = memo(() => {
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     // update search value
-    setSearchValue(e.target.value)
+    setSearchValue(e.currentTarget.value)
     // avoid currentPage has no data
     setCurrentPage(1)
   }
@@ -92,16 +94,21 @@ const CountryV2: FC = memo(() => {
   const handleOptionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setPerPage(Number(e.currentTarget.value))
   }
+
   return (
     <div className='p-3 rounded-none shadow-lg w-[900px] my-3 mx-auto'>
       <div className='flex justify-between h-12'>
         <Entries
-          values={new Set([5, 10, 20, 30])}
+          values={new Set([10, 20, 30])}
           onOptionChange={handleOptionChange}
         />
         <Search onSearch={handleSearch} ref={inputRef} value={searchValue} />
       </div>
-      <TableContent data={currentList} onSort={handleSort} />
+      <TableContent
+        data={currentList}
+        onSort={handleSort}
+        isLoading={isLoading}
+      />
       {isFetched && totalPages > 0 && (
         <Pagination
           totalPages={totalPages}

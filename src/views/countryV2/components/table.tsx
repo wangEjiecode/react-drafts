@@ -6,6 +6,7 @@ import type { SortItemName, SortType } from '../type'
 interface IContentProps {
   data: IDataType[]
   onSort: (key: SortItemName, type: SortType) => void
+  isLoading: boolean
 }
 interface IHeaderProps {
   label: string
@@ -40,7 +41,7 @@ const TableHeader: FC<IHeaderProps> = memo(
     )
   }
 )
-const TableContent: FC<IContentProps> = memo(({ data, onSort }) => {
+const TableContent: FC<IContentProps> = memo(({ data, onSort, isLoading }) => {
   const [activeSort, setActiveSort] = useState<{
     key: SortItemName
     type: SortType
@@ -74,25 +75,50 @@ const TableContent: FC<IContentProps> = memo(({ data, onSort }) => {
           ))}
         </tr>
       </thead>
-      <tbody>
-        {data?.map((item, index) => (
-          <tr
-            key={index}
-            className={
-              (index % 2 === 0 ? 'bg-[#f9f9f9]' : 'bg-[#fff]') +
-              '  hover:bg-gray-200'
-            }>
-            <td width={'120px'}>
-              <img src={item.media.flag} alt='' width='100px' height='100px' />
+      {isLoading ? (
+        <tbody>
+          <tr>
+            <td colSpan={headers.length + 1} className='text-center'>
+              Loading...
             </td>
-            <td>{item.name}</td>
-            <td>{item.capital}</td>
-            <td>{item.currency}</td>
-            <td width={'100px'}>{item.phone}</td>
-            <td>{item.population}</td>
           </tr>
-        ))}
-      </tbody>
+        </tbody>
+      ) : data.length > 0 ? (
+        <tbody>
+          {data?.map((item, index) => (
+            <tr
+              key={index}
+              className={
+                (index % 2 === 0 ? 'bg-[#f9f9f9]' : 'bg-[#fff]') +
+                '  hover:bg-gray-200'
+              }>
+              <td width={'120px'}>
+                <img
+                  src={item.media.flag}
+                  alt=''
+                  width='100px'
+                  height='100px'
+                />
+              </td>
+              <td>{item.name}</td>
+              <td>{item.capital}</td>
+              <td>{item.currency}</td>
+              <td width={'100px'}>{item.phone}</td>
+              <td>{item.population}</td>
+            </tr>
+          ))}
+        </tbody>
+      ) : (
+        <tbody>
+          <tr>
+            <td
+              colSpan={headers.length + 1}
+              className='bg-gray-200 text-center'>
+              No matching records found
+            </td>
+          </tr>
+        </tbody>
+      )}
     </table>
   )
 })
