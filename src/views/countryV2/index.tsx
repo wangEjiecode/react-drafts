@@ -96,7 +96,7 @@ const CountryV2: FC = memo(() => {
     <div className='p-3 rounded-none shadow-lg w-[900px] my-3 mx-auto'>
       <div className='flex justify-between h-12'>
         <Entries
-          values={new Set([10, 20, 30])}
+          values={new Set([5, 10, 20, 30])}
           onOptionChange={handleOptionChange}
         />
         <Search onSearch={handleSearch} ref={inputRef} value={searchValue} />
@@ -106,6 +106,10 @@ const CountryV2: FC = memo(() => {
         <Pagination
           totalPages={totalPages}
           currentPage={currentPage as number}
+          perPage={
+            perPage < filteredList.length ? perPage : filteredList.length
+          }
+          totalList={filteredList.length}
           onPageChange={handlePageChange}
         />
       )}
