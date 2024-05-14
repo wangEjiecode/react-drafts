@@ -50,7 +50,6 @@ class ServiceRequest {
   }
 
   // 封装网络请求方法
-  // 封装后，如果该库不再支持，直接修改类型就行
   request<T = any>(config: ServiceRequestConfig<T>) {
     // 回调 拦截器
     if (config.interceptors?.requestSuccessFn) {
@@ -74,12 +73,6 @@ class ServiceRequest {
   }
   post<T = AxiosResponse>(config: ServiceRequestConfig<T>) {
     return this.request({ ...config, method: 'POST' })
-  }
-  delete<T = AxiosResponse>(config: ServiceRequestConfig<T>) {
-    return this.request({ ...config, method: 'DELETE' })
-  }
-  patch<T = AxiosResponse>(config: ServiceRequestConfig<T>) {
-    return this.request({ ...config, method: 'PATCH' })
   }
 }
 
